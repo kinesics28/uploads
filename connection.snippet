@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>GetConnection</Title>
+      <Shortcut>getconnection</Shortcut>
+      <Description>Creates a SQL Server connection object</Description>
+      <Author>Visual Studio Snippet</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="true">
+          <ID>xmlFile</ID>
+          <ToolTip>Path to the XML file containing connection details</ToolTip>
+          <Default>mssql.xml</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[public static SqlConnection GetConnection()
+{
+    String xmlString = System.IO.File.ReadAllText("$xmlFile$");
+
+    string username;
+    string password;
+    string schema;
+    string host;
+
+    using (XmlReader reader = XmlReader.Create(new StringReader(xmlString)))
+    {
+        reader.ReadToFollowing("username");
+        username = reader.ReadElementContentAsString();
+        reader.ReadToFollowing("password");
+        password = reader.ReadElementContentAsString();
+        reader.ReadToFollowing("host");
+        host = reader.ReadElementContentAsString();
+        reader.ReadToFollowing("schema");
+        schema = reader.ReadElementContentAsString();
+    }
+
+    string connection_string = "Data Source=" + host + ";Initial Catalog=" + schema + ";User id=" + username + ";Password=" + password + ";";
+    SqlConnection conn = new SqlConnection(connection_string);
+    return conn;
+}]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

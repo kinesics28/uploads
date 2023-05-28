@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>InsertUser</Title>
+      <Shortcut>insertuser</Shortcut>
+      <Description>Inserts user data into the database</Description>
+      <Author>Visual Studio Snippet</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false">
+          <ID>connectionSnippet</ID>
+          <ToolTip>Snippet for establishing connection</ToolTip>
+          <Default>getconnection</Default>
+        </Literal>
+        <Literal Editable="false">
+          <ID>namespace</ID>
+          <ToolTip>The namespace of your DBConnection class</ToolTip>
+          <Default>YourNamespace</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>tableName</ID>
+          <ToolTip>The name of the table to insert data into</ToolTip>
+          <Default>person</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>paramUser</ID>
+          <ToolTip>The name of the parameter for user name</ToolTip>
+          <Default>@user</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>paramUsername</ID>
+          <ToolTip>The name of the parameter for username</ToolTip>
+          <Default>@username</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>paramPassword</ID>
+          <ToolTip>The name of the parameter for password</ToolTip>
+          <Default>@password</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>paramContactNo</ID>
+          <ToolTip>The name of the parameter for contact number</ToolTip>
+          <Default>@contactno</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[SqlConnection conn = $namespace$.DBConnection.$connectionSnippet$();
+conn.Open();
+SqlCommand comm = new SqlCommand();
+comm.Connection = conn;
+
+SqlParameter p1 = new SqlParameter();
+p1.ParameterName = "$paramUser$";
+p1.Value = user.Name;
+
+SqlParameter p2 = new SqlParameter();
+p2.ParameterName = "$paramUsername$";
+p2.Value = user.UserName;
+
+SqlParameter p3 = new SqlParameter();
+p3.ParameterName = "$paramPassword$";
+p3.Value = user.Password;
+
+SqlParameter p4 = new SqlParameter();
+p4.ParameterName = "$paramContactNo$";
+p4.Value = user.ContactNo;
+
+comm.Parameters.Add(p1);
+comm.Parameters.Add(p2);
+comm.Parameters.Add(p3);
+comm.Parameters.Add(p4);
+
+comm.CommandText = "INSERT INTO $tableName$ VALUES ($paramUser$, $paramUsername$, $paramPassword$, $paramContactNo$)";
+int val = comm.ExecuteNonQuery();
+
+conn.Close();
+return val;]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

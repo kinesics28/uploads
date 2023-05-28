@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>GetUser</Title>
+      <Shortcut>getuser</Shortcut>
+      <Description>Retrieves user data from the database</Description>
+      <Author>Visual Studio Snippet</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal Editable="false">
+          <ID>connectionSnippet</ID>
+          <ToolTip>Snippet for establishing connection</ToolTip>
+          <Default>getconnection</Default>
+        </Literal>
+        <Literal Editable="false">
+          <ID>namespace</ID>
+          <ToolTip>The namespace of your DBConnection class</ToolTip>
+          <Default>YourNamespace</Default>
+        </Literal>
+        <Literal Editable="true">
+          <ID>tableName</ID>
+          <ToolTip>The name of the table to retrieve data from</ToolTip>
+          <Default>person</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp"><![CDATA[SqlConnection conn = $namespace$.DBConnection.$connectionSnippet$();
+SqlCommand cmd = new SqlCommand("SELECT * FROM $tableName$", conn);
+conn.Open();
+List<User> userList = new List<User>();
+SqlDataReader reader = cmd.ExecuteReader();
+
+while (reader.Read())
+{
+    User user = new User(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString());
+    userList.Add(user);
+}
+
+reader.Close();
+conn.Close();
+return userList;]]></Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
